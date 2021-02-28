@@ -1,0 +1,5 @@
+pathlib
+PyQt5
+sqlite3
+sys
+typing
