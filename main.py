@@ -6,6 +6,8 @@ from PyQt5.Qt import QAbstractItemModel
 import sys
 from pathlib import Path
 
+import main_ui
+import addEditCoffeeForm
 
 MAIN_UI_FILENAME = Path('./main.ui')
 DIALOG_UI_FILENAME = Path('./addEditCoffeeForm.ui')
@@ -36,10 +38,10 @@ class SqliteStorage:
         self._connection.commit()
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QMainWindow, main_ui.Ui_Window):
     def __init__(self, storage: SqliteStorage):
         super().__init__()
-        uic.loadUi(MAIN_UI_FILENAME, self)
+        self.setupUi(self)
         self.storage = storage
         self.fill_table()
         self.edit_button.clicked.connect(self.handle_edit)
@@ -87,10 +89,10 @@ class MainWindow(QMainWindow):
             self.fill_row(i, coffee_info)
 
 
-class AddEditDialog(QWidget):
+class AddEditDialog(QWidget, addEditCoffeeForm.Ui_Form):
     def __init__(self, on_save_callback, data=None):
         super().__init__()
-        uic.loadUi(DIALOG_UI_FILENAME, self)
+        self.setupUi(self)
         self.id_ = None
         self.type_edit.addItems(['зерна', 'молотый'])
         if data:
